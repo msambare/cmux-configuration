@@ -1,0 +1,24 @@
+{
+  "$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+  "schemaVersion": 1,
+
+  // cmux-configuration — managed cmux app settings (cmux-only; no personal data; safe to share).
+  // Keybindings + notifications get added here in a later phase.
+
+  "app": {
+    "appearance": "dark"
+  },
+
+  // Sidebar tuned to harmonize with the shared Catppuccin Mocha terminal theme.
+  "sidebarAppearance": {
+    "matchTerminalBackground": false,
+    "tintColor": "#181825",
+    "tintOpacity": 0.85
+  },
+
+  "workspaceColors": {
+    "indicatorStyle": "leftRail",
+    "selectionColor": "#313244",
+    "notificationBadgeColor": "#f38ba8"
+  }
+}

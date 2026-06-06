@@ -1,0 +1,41 @@
+# ─────────────────────────────────────────────────────────────
+# PII / SECRETS GUARD — this repo is PUBLIC. Never commit machine
+# state, scrollback, logs, or secrets. When in doubt, add it here.
+# ─────────────────────────────────────────────────────────────
+
+# macOS cruft
+.DS_Store
+
+# cmux machine state & runtime (scrollback can contain PII)
+session-*.json
+*.sock
+*.sock.lock
+last-socket-path
+events.jsonl
+search.db
+search.db-*
+*.plist
+
+# logs & backups
+*.log
+*.bak
+*.backup
+backups/
+
+# secrets — patterns, never tracked
+.env
+.env.*
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+*.p12
+*_token
+*_secret
+credentials.json
+
+# local override scratch (use *.local for machine-specific values)
+*.local
+
+# local-only POC migration helper (references this machine's .cmuxtest.bak)
+scripts/poc-rollback.sh

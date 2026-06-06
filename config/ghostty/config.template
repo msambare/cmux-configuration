@@ -1,0 +1,33 @@
+# cmux-configuration — full Ghostty config template.
+# Used by install.sh ONLY when no ~/.config/ghostty/config exists yet (fresh machine).
+# The managed block (blocks/ghostty.cmux.conf: theme/command/shell-integration) is appended after.
+# Personal, machine-specific lines (window geometry) are intentionally omitted — add per machine.
+
+# ── Fonts ───────────────────────────────────────────────────────────────
+font-family = SF Mono
+font-size = 13
+window-padding-x = 8
+window-padding-y = 8
+
+# ── macOS ───────────────────────────────────────────────────────────────
+macos-option-as-alt = true
+
+# ── Mouse & clipboard ───────────────────────────────────────────────────
+mouse-hide-while-typing = true
+click-repeat-interval = 500
+copy-on-select = clipboard
+mouse-shift-capture = never
+clipboard-read = allow
+clipboard-write = allow
+
+# ── Terminal keybinds ───────────────────────────────────────────────────
+keybind = cmd+c=copy_to_clipboard
+keybind = cmd+v=paste_from_clipboard
+keybind = cmd+t=new_tab
+keybind = cmd+w=close_surface
+
+# ── Cursor & selection (Catppuccin Mocha) ───────────────────────────────
+cursor-style = block
+cursor-style-blink = false
+selection-foreground = #cdd6f4
+selection-background = #45475a
