@@ -5,7 +5,19 @@
   // cmux-configuration — managed cmux app settings (cmux-only; no personal data; safe to share).
 
   "app": {
-    "appearance": "dark"
+    "appearance": "dark",
+    "reorderOnNotification": true
+  },
+
+  // Desktop alert + sound when an agent finishes / needs input. 'Glass' = distinct chime
+  // (swap for any of: default,Basso,Blow,Bottle,Frog,Funk,Glass,Hero,Morse,Ping,Pop,
+  //  Purr,Sosumi,Submarine,Tink,none). Per-agent triggers are wired by cmux hooks (agent phase).
+  "notifications": {
+    "dockBadge": true,
+    "showInMenuBar": true,
+    "unreadPaneRing": true,
+    "paneFlash": true,
+    "sound": "Glass"
   },
 
   // Sidebar tuned to harmonize with the shared Catppuccin Mocha terminal theme.
