@@ -18,6 +18,21 @@ else
   echo "(skip npx skills — npx not found)"
 fi
 
+# ── Ensure Codex + OpenCode actually carry the skills in their OWN dirs ───────
+#    (the universal ~/.agents/skills install isn't always read from each agent's
+#    own skills dir, so link them explicitly to be certain.)
+if [ -d "$HOME/.agents/skills" ]; then
+  for dir in "$HOME/.codex/skills" "$HOME/.config/opencode/skills"; do
+    mkdir -p "$dir"
+    for s in "$HOME/.agents/skills"/cmux*; do
+      [ -e "$s" ] || continue
+      name="$(basename "$s")"
+      if [ ! -e "$dir/$name" ]; then ln -s "$s" "$dir/$name"; fi
+    done
+  done
+  echo "==> ensured Codex + OpenCode have cmux skills (linked from ~/.agents/skills)"
+fi
+
 # ── Grok (ISOLATED): install cmux skills into grok's OWN dir, not via claude ──
 if [ -d "$HOME/.grok" ]; then
   echo "==> Grok: installing cmux skills into ~/.grok/skills (isolated; grok never reads ~/.claude)"
