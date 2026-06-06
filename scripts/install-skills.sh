@@ -21,16 +21,20 @@ fi
 # ── Ensure Codex + OpenCode actually carry the skills in their OWN dirs ───────
 #    (the universal ~/.agents/skills install isn't always read from each agent's
 #    own skills dir, so link them explicitly to be certain.)
+#    Gated on the agent being on PATH — skip (and create no dir) if absent.
 if [ -d "$HOME/.agents/skills" ]; then
-  for dir in "$HOME/.codex/skills" "$HOME/.config/opencode/skills"; do
-    mkdir -p "$dir"
+  link_cmux_skills() {  # $1 = agent command   $2 = that agent's skills dir
+    command -v "$1" >/dev/null 2>&1 || { echo "(skip $1 skills — not on PATH)"; return; }
+    mkdir -p "$2"
     for s in "$HOME/.agents/skills"/cmux*; do
       [ -e "$s" ] || continue
       name="$(basename "$s")"
-      if [ ! -e "$dir/$name" ]; then ln -s "$s" "$dir/$name"; fi
+      if [ ! -e "$2/$name" ]; then ln -s "$s" "$2/$name"; fi
     done
-  done
-  echo "==> ensured Codex + OpenCode have cmux skills (linked from ~/.agents/skills)"
+    echo "==> ensured $1 has cmux skills (linked into $2)"
+  }
+  link_cmux_skills codex    "$HOME/.codex/skills"
+  link_cmux_skills opencode "$HOME/.config/opencode/skills"
 fi
 
 # ── Grok (ISOLATED): install cmux skills into grok's OWN dir, not via claude ──
