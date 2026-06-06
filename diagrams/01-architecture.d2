@@ -1,0 +1,30 @@
+direction: right
+
+login: OS login shell = fish {shape: oval; style.fill: "#89b4fa"}
+
+ghostty_cfg: "~/.config/ghostty/config  (theme=Catppuccin Mocha, command=/bin/zsh -l)" {shape: page; style.fill: "#f9e2af"}
+cmux_cfg: "~/.config/cmux/cmux.json  (dark chrome, sidebar, keybinds, notifications)" {shape: page; style.fill: "#f9e2af"}
+
+ghostty: Ghostty.app {
+  style.fill: "#a6e3a1"
+  a: honors command -> zsh
+  b: tmux 'work' on open
+  c: detach Ctrl+B d -> fish
+}
+
+cmux: cmux.app {
+  style.fill: "#cba6f7"
+  a: ignores command -> launches fish
+  b: fish config execs zsh
+  c: zsh sets SHELL=zsh + integration
+  d: sidebar git/cwd + Catppuccin sidebar
+}
+
+agents: Agents: Claude / Codex / OpenCode / Grok {shape: rectangle; style.fill: "#fab387"}
+
+login -> ghostty: launches
+login -> cmux: launches
+ghostty_cfg -> ghostty: theme + shell
+ghostty_cfg -> cmux: theme only (shared file)
+cmux_cfg -> cmux: chrome / keybinds / notifs
+agents -> cmux: hooks -> notifications + Feed

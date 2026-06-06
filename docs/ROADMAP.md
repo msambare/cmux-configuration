@@ -20,9 +20,9 @@ Live status of the cmux-configuration build. Updated as phases land.
 - [x] **P0 — Discover** cmux config + docs; baseline ([docs/00-current-state.md](00-current-state.md)).
 - [x] **P1 — Foundation POC** (shells/theme/tmux/sidebar) proven in-place; reversible via [scripts/poc-rollback.sh](../scripts/poc-rollback.sh).
 - [x] **P2 — Portable spine**: `install.sh` / `uninstall.sh` / `verify.sh` + `lib/inject.sh` + `blocks/` + managed `cmux.json`. *(sandbox + live validated; machine migrated to managed; effective config proven byte-identical to the working POC)*
-- [ ] **P3 — Features**: keybindings (hybrid tmux), notifications (+agent hooks), skills install, agent integrations (claude/codex/opencode/grok), worktrees (custom commands).
-- [ ] **P4 — Docs**: per-area guides + D2 architecture diagram.
-- [ ] **P5 — Ship**: PII-verified commit → review → GitHub public.
+- [x] **P3 — Features**: keybindings (hybrid tmux, 15 chords, schema-validated), notifications (cmux.json), skills installer, agent integrations (claude/codex/opencode/grok hooks — installed + validated live), worktrees (script tested). Each committed.
+- [x] **P4 — Docs**: per-area guides (keybindings/notifications/skills/agents/worktrees) + D2 architecture diagram + docs index + README.
+- [ ] **P5 — Ship**: PII-verified (committed locally, swept each commit) → your review → GitHub public. *Pending your go.*
 
 ## Migrate this machine (POC → managed)
 
