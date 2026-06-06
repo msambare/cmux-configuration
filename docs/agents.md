@@ -18,23 +18,33 @@ Hooks fire on stop / needs-input → cmux raises a notification (see
 [`docs/notifications.md`](notifications.md)); nested sub-agent noise is suppressed
 by `automation.suppressSubagentNotifications` (cmux default).
 
-## Grok + isolated HOME (independent of claude)
+## Grok — completely isolated from all other agents
 
-Grok runs with `HOME=~/.grok-isolated-home`, which **deliberately has no `.claude`**
-— grok cannot import claude/claude-code skills, rules, hooks, or plugins. Grok is
-fully self-contained: its own `~/.grok/{skills,hooks,installed-plugins,worktrees}`.
+Grok runs with `HOME=~/.grok-isolated-home` via a wrapper
+([`scripts/grok-isolated-wrapper.sh`](../scripts/grok-isolated-wrapper.sh),
+installed at `~/.local/bin/grok`). On **every launch** the wrapper re-mirrors the
+real `$HOME` into the isolated home as symlinks, **excluding every other agent's
+config** so grok cannot discover their skills/plugins/MCPs/hooks/rules.
 
-Nothing here couples grok to claude:
-- **Hook** — `cmux hooks grok install` writes a **grok-specific** hook to
-  `~/.grok/hooks/cmux-session.json` (it calls `cmux hooks grok …` / `--source grok`,
-  no claude references). The isolated HOME's `.grok → ~/.grok` symlink makes it
-  visible to grok; no separate install needed.
-- **Skills** — installed into grok's own `~/.grok/skills/` (see
-  [skills.md](skills.md)), never read from claude's dir.
+What's hidden (`HIDE_PATTERNS`): `.claude*` (incl. `CLAUDE.md`, `.claude.json*`,
+`.claude-mem`, `.claude-server-commander*`), `AGENTS.md`, `.agents` (the universal
+skills dir), `.codex* .cursor .gemini .antigravity* .factory .cherrystudio
+.agent-browser .lmstudio* .aider .copilot .kiro …`. `~/.config` is **rebuilt
+selectively** — non-agent tool configs (git, gh, fish, cmux, ghostty, nvim, …) are
+symlinked, but agent/AI subdirs (`amp opencode goose ai-builder tmuxai caveman`)
+are omitted.
 
-So grok's cmux integration is notification/Feed wiring only — grok keeps its own
-config and stays independent of claude. (Verified: `ls ~/.grok-isolated-home`
-shows no `.claude`.)
+What grok keeps: its **own** `~/.grok/{skills,hooks,installed-plugins,worktrees}`,
+shell + dev tooling, `.aikido` (safe-chain), `.ssh`, `.gitconfig`, and ordinary
+project dirs (e.g. a cloned repo) — so it stays fully functional.
+
+> **Why the wrapper, not manual deletion:** the wrapper re-creates the mirror on
+> every launch, so hand-removing a symlink reverts on next run. Isolation must be
+> maintained in `HIDE_PATTERNS` / `CONFIG_HIDE`. Refresh without launching grok:
+> `GROK_WRAPPER_SYNC_ONLY=1 grok`.
+
+Grok's cmux hook (`cmux hooks grok install` → `~/.grok/hooks/cmux-session.json`)
+and its cmux skills (`~/.grok/skills/`) are grok-specific — zero claude references.
 
 ## Team launchers (parallel agents inside cmux)
 
