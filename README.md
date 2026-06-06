@@ -8,6 +8,8 @@ OpenCode, Grok) — alongside standalone [Ghostty](https://ghostty.org).
 > shells, theme, keybindings, notifications, skills, agent integrations,
 > worktrees — with **zero personal data** in the repo (or its git history).
 
+**Day-to-day usage → [`docs/usage.md`](docs/usage.md)** (what's enabled + how to drive it).
+
 ![Architecture](diagrams/01-architecture.png)
 
 *cmux and Ghostty share one ghostty config (so the **theme** is shared), but route
