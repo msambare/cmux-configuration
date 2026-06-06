@@ -38,7 +38,8 @@ if [ -d "$HOME/.agents/skills" ]; then
 fi
 
 # ── Grok (ISOLATED): install cmux skills into grok's OWN dir, not via claude ──
-if [ -d "$HOME/.grok" ]; then
+#    Gated on grok being on PATH (matches the other agents) — skip if absent.
+if command -v grok >/dev/null 2>&1; then
   echo "==> Grok: installing cmux skills into ~/.grok/skills (isolated; grok never reads ~/.claude)"
   tmp="$(mktemp -d)"
   if git clone --depth 1 --filter=blob:none --sparse https://github.com/manaflow-ai/cmux "$tmp" >/dev/null 2>&1 \
