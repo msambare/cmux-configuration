@@ -1,22 +1,41 @@
 #!/usr/bin/env bash
-# Install cmux's agent-control skills — teaches Claude Code, Codex, OpenCode, Grok
-# to drive cmux (workspaces, panes, settings, browser, diagnostics) via the cmux CLI.
+# Install cmux's agent-control skills so each agent can drive cmux.
 #
-# NETWORK: fetches from manaflow-ai/cmux via the Vercel `skills` CLI (npx). Your
-# safe-chain wrapper will engage — run this INTERACTIVELY so you can review/approve.
+# ISOLATION: Grok is deliberately kept independent of claude/claude-code (its HOME
+# ~/.grok-isolated-home has NO .claude). So Grok gets cmux skills in its OWN
+# ~/.grok/skills — it NEVER reads claude's skills. Claude/Codex/OpenCode use the
+# Vercel `skills` CLI, which installs to each agent's own dir.
+#
+# NETWORK: fetches manaflow-ai/cmux. The npx path goes through your safe-chain —
+# run this interactively.
 set -euo pipefail
 
-if ! command -v npx >/dev/null 2>&1; then
-  echo "npx not found — install Node.js first." >&2; exit 1
+# ── Claude Code / Codex / OpenCode (each into its own skills dir) ─────────
+if command -v npx >/dev/null 2>&1; then
+  echo "==> Claude/Codex/OpenCode: npx skills add manaflow-ai/cmux -g"
+  npx skills add manaflow-ai/cmux -g -y
+else
+  echo "(skip npx skills — npx not found)"
 fi
 
-echo "==> Installing cmux skills for all detected agents…"
-echo "    (source: manaflow-ai/cmux · your safe-chain may prompt)"
-npx skills add manaflow-ai/cmux -g -y
+# ── Grok (ISOLATED): install cmux skills into grok's OWN dir, not via claude ──
+if [ -d "$HOME/.grok" ]; then
+  echo "==> Grok: installing cmux skills into ~/.grok/skills (isolated; grok never reads ~/.claude)"
+  tmp="$(mktemp -d)"
+  if git clone --depth 1 --filter=blob:none --sparse https://github.com/manaflow-ai/cmux "$tmp" >/dev/null 2>&1 \
+     && git -C "$tmp" sparse-checkout set skills >/dev/null 2>&1; then
+    mkdir -p "$HOME/.grok/skills"
+    cp -R "$tmp"/skills/cmux* "$HOME/.grok/skills/"
+    echo "    installed $(ls -d "$tmp"/skills/cmux* 2>/dev/null | wc -l | tr -d ' ') cmux skills into ~/.grok/skills"
+  else
+    echo "    clone failed — skipping grok skills"
+  fi
+  rm -rf "$tmp"
+fi
 
 echo
 echo "==> Done."
-echo "    Grok runs with an isolated HOME (~/.grok-isolated-home) whose dotfiles symlink"
-echo "    back to your real home, so it picks up skills installed in ~/.codex / ~/.claude."
-echo "    Verify: ls ~/.codex/skills ~/.claude/skills 2>/dev/null | grep -i cmux"
-echo "    Update: re-run this script.  Remove: delete the cmux-* skill directories."
+echo "    Verify (per-agent, separate dirs):"
+echo "      ls ~/.claude/skills ~/.codex/skills ~/.config/opencode/skills 2>/dev/null | grep -i cmux"
+echo "      ls ~/.grok/skills | grep -i cmux        # grok's own, isolated"
+echo "    Remove: delete the cmux* skill dirs from each location."

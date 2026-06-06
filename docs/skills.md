@@ -1,39 +1,45 @@
 # Skills — let agents drive cmux
 
-cmux ships **skills**: structured instructions that teach an AI coding agent how
-to control cmux through its CLI/socket. With these installed, Claude Code, Codex,
-OpenCode, and Grok can open workspaces, split panes, change settings, automate
-the embedded browser, and self-diagnose — i.e. the agents operate cmux for you.
+cmux ships **skills**: structured instructions that teach an AI coding agent to
+control cmux through its CLI/socket (workspaces, panes, settings, browser,
+diagnostics). Install: [`scripts/install-skills.sh`](../scripts/install-skills.sh).
 
-Install: [`scripts/install-skills.sh`](../scripts/install-skills.sh) →
-`npx skills add manaflow-ai/cmux -g -y`.
+> **Each agent gets skills in its OWN dir — they are not shared between agents.**
 
-> Runs through your **safe-chain** wrapper — run it interactively so package
-> installs are reviewed. Not run automatically by `install.sh` (which stays
-> offline). Skills are additive files in each agent's `skills/` dir; remove by
-> deleting the `cmux-*` dirs.
+## Per-agent install (isolation matters)
 
-## Included skills
+| Agent | Skills dir | How |
+|-------|-----------|-----|
+| Claude Code | `~/.claude/skills` | `npx skills add manaflow-ai/cmux -g` |
+| Codex | `~/.codex/skills` | (same) |
+| OpenCode | `~/.config/opencode/skills` | (same) |
+| **Grok** | **`~/.grok/skills`** | **git copy into grok's own dir** |
 
-| Skill | Teaches the agent to… |
-|-------|------------------------|
-| `cmux` (core) | windows, workspaces, panes, surfaces, focus, move, reorder, routing |
-| `cmux-workspace` | scoped automation of the current workspace/surface, send input |
-| `cmux-settings` | read/write/validate `~/.config/cmux/cmux.json` safely |
-| `cmux-customization` | actions, plus-button, tab-bar, layouts, Dock, Feed hooks, shortcuts |
-| `cmux-diagnostics` | health-check CLI/socket/hooks/session-restore/agent binaries |
-| `cmux-browser` | automate cmux webview surfaces (snapshot refs, DOM, screenshots) |
-| `cmux-markdown` | open markdown in cmux's formatted live-reload panel |
+### Grok is isolated from claude/claude-code
 
-## Per-agent locations
+Grok runs with `HOME=~/.grok-isolated-home`, which **has no `.claude`** — grok
+cannot read claude's skills/rules/plugins, by design. So grok's cmux skills are
+installed **directly into its own `~/.grok/skills/`** (the script git-clones the
+cmux `skills/` dir and copies the `cmux*` skills there). Grok never reads claude's
+skill dir. (Earlier drafts of this doc wrongly implied grok picked skills up via
+claude/codex symlinks — it does not.)
 
-The `skills` CLI installs to each detected agent's skills dir (e.g.
-`~/.codex/skills`, `~/.claude/skills`, `~/.config/opencode/skills`). **Grok**
-runs with `HOME=~/.grok-isolated-home`, whose dotfiles symlink to your real home,
-so a global install reaches it too.
+## Included cmux skills
+
+`cmux` (core) · `cmux-workspace` · `cmux-settings` · `cmux-customization`
+(incl. **worktree-agents**) · `cmux-diagnostics` · `cmux-browser` ·
+`cmux-markdown` · `cmux-keyboard-shortcuts`.
+
+## Notes
+
+- The `npx` path runs through your **safe-chain** wrapper — run the script
+  interactively so package installs are reviewed.
+- Grok also has a **native worktrees** feature (`~/.grok/worktrees`) independent
+  of cmux. See [worktrees.md](worktrees.md).
 
 ## Verify
 
 ```sh
-ls ~/.codex/skills ~/.claude/skills 2>/dev/null | grep -i cmux
+ls ~/.claude/skills ~/.codex/skills ~/.config/opencode/skills 2>/dev/null | grep -i cmux
+ls ~/.grok/skills | grep -i cmux     # grok's own, isolated
 ```

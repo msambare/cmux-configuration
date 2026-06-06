@@ -37,11 +37,18 @@ Once the worktree workspace is open in cmux, split it and launch an agent per pa
 (`Ctrl+B %` / `Ctrl+B "` with these keybindings, then run `claude` / `codex` /
 `opencode` / `grok`).
 
-For **one-click** worktree-with-agents (plus-button / Command Palette), use cmux's
-`cmux-customization` skill — it ships a `worktree-agents` example that opens a
-dedicated worktree with paired Codex/Claude/SSH terminals. Install skills first
-([`docs/skills.md`](skills.md)), then ask your agent to wire it via that skill, or
-adapt its example into `customCommands` in `cmux.json`.
+For **one-click** worktree-with-agents (plus-button / Command Palette), cmux's
+official **`cmux-customization` skill** is the source of truth — it documents the
+`worktree-agents` workspace command (`references/examples.md` → "Worktree Agents":
+a `workspaceCommand` action with `commandName: "Worktree Agents"` defined under
+`commands`/`customCommands` in `cmux.json` / project-local `.cmux/cmux.json`). It
+opens a dedicated worktree with paired Codex/Claude/SSH terminals. Install skills
+first ([skills.md](skills.md)), then have an agent wire it via that skill, or copy
+its example into your `cmux.json`. This repo's `worktree.sh` is the lightweight
+CLI alternative.
+
+> **Grok** also has a **native** worktree feature (`~/.grok/worktrees` +
+> `worktrees.db`), independent of cmux and of claude — use whichever fits.
 
 ## Why grouped worktrees
 

@@ -18,12 +18,23 @@ Hooks fire on stop / needs-input → cmux raises a notification (see
 [`docs/notifications.md`](notifications.md)); nested sub-agent noise is suppressed
 by `automation.suppressSubagentNotifications` (cmux default).
 
-## Grok + isolated HOME
+## Grok + isolated HOME (independent of claude)
 
-You run Grok with `HOME=~/.grok-isolated-home`. That directory's `.grok` is a
-symlink to your real `~/.grok`, so the hook installed at `~/.grok/hooks/` is
-visible to isolated Grok automatically — no separate install needed. (If you ever
-point Grok at a non-symlinked HOME, re-run with that `HOME` set.)
+Grok runs with `HOME=~/.grok-isolated-home`, which **deliberately has no `.claude`**
+— grok cannot import claude/claude-code skills, rules, hooks, or plugins. Grok is
+fully self-contained: its own `~/.grok/{skills,hooks,installed-plugins,worktrees}`.
+
+Nothing here couples grok to claude:
+- **Hook** — `cmux hooks grok install` writes a **grok-specific** hook to
+  `~/.grok/hooks/cmux-session.json` (it calls `cmux hooks grok …` / `--source grok`,
+  no claude references). The isolated HOME's `.grok → ~/.grok` symlink makes it
+  visible to grok; no separate install needed.
+- **Skills** — installed into grok's own `~/.grok/skills/` (see
+  [skills.md](skills.md)), never read from claude's dir.
+
+So grok's cmux integration is notification/Feed wiring only — grok keeps its own
+config and stays independent of claude. (Verified: `ls ~/.grok-isolated-home`
+shows no `.claude`.)
 
 ## Team launchers (parallel agents inside cmux)
 
