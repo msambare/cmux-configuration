@@ -4,12 +4,14 @@
 # cmux hooks are idempotent and reversible: `cmux hooks <agent> uninstall`.
 # No network; uses the cmux CLI only.
 set -euo pipefail
-command -v cmux >/dev/null 2>&1 || { echo "cmux not found — install cmux first." >&2; exit 1; }
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+. "$HERE/../lib/cmux-cli.sh"
+cmux_present || { echo "cmux not found (checked \$PATH and /Applications/cmux.app) — install cmux first." >&2; exit 1; }
 
 for agent in codex opencode grok; do
   if command -v "$agent" >/dev/null 2>&1; then
     echo "==> cmux hooks $agent install"
-    cmux hooks "$agent" install -y
+    cmux_cli hooks "$agent" install -y
   else
     echo "(skip $agent — not on PATH)"
   fi

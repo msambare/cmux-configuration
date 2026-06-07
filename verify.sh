@@ -15,8 +15,10 @@ chk "fish:    managed block present"      grep -q 'cmux-config:fish' "$FC"
 chk "zsh:     managed block present"      grep -q 'cmux-config:zshrc' "$ZC"
 chk "zsh:     SHELL override present"      grep -q 'export SHELL=/bin/zsh' "$ZC"
 chk "cmux.json present"                    test -f "$CJ"
-if command -v cmux >/dev/null 2>&1; then
-  chk "cmux.json valid (config doctor)"   bash -c "cmux config doctor 2>&1 | grep -q 'JSONC syntax is valid'"
+. "$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/lib/cmux-cli.sh"
+if cmux_present; then
+  CMUX_BIN="$(cmux_cli_path)"
+  chk "cmux.json valid (config doctor)"   bash -c "'$CMUX_BIN' config doctor 2>&1 | grep -q 'JSONC syntax is valid'"
 fi
 echo
 echo "PASS=$pass FAIL=$fail"
