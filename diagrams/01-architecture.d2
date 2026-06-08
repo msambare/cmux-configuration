@@ -1,30 +1,94 @@
-direction: right
+# cmux-configuration — architecture
+# One shared Ghostty config gives both apps the same THEME; the SHELLS route
+# differently (Ghostty honors `command` → zsh; cmux ignores it and is steered
+# zsh→fish→zsh via the managed blocks). Other terminals stay fish.
 
-login: OS login shell = fish {shape: oval; style.fill: "#89b4fa"}
+direction: down
 
-ghostty_cfg: "~/.config/ghostty/config  (theme=Catppuccin Mocha, command=/bin/zsh -l)" {shape: page; style.fill: "#f9e2af"}
-cmux_cfg: "~/.config/cmux/cmux.json  (dark chrome, sidebar, keybinds, notifications)" {shape: page; style.fill: "#f9e2af"}
+vars: {
+  d2-config: {
+    pad: 40
+    layout-engine: elk
+  }
+}
 
+classes: {
+  shell: {
+    shape: oval
+    style: {fill: "#bcd4f2"; stroke: "#6f9bd1"; stroke-width: 2; font-color: "#28324a"; bold: true; shadow: true}
+  }
+  cfg: {
+    shape: page
+    style: {fill: "#fbeec0"; stroke: "#cdb85f"; stroke-width: 2; font-color: "#4a4326"; shadow: true}
+  }
+  appmauve: {
+    style: {fill: "#efe7fb"; stroke: "#a98fd4"; stroke-width: 2; font-color: "#3a2f5c"; border-radius: 14; shadow: true; font-size: 18; bold: true}
+  }
+  appgreen: {
+    style: {fill: "#e3f3e4"; stroke: "#7fbe83"; stroke-width: 2; font-color: "#274a2c"; border-radius: 14; shadow: true; font-size: 18; bold: true}
+  }
+  stepmauve: {
+    style: {fill: "#ffffff"; stroke: "#c6b2e6"; stroke-width: 1; font-color: "#3a3550"; border-radius: 8}
+  }
+  stepgreen: {
+    style: {fill: "#ffffff"; stroke: "#a7d6aa"; stroke-width: 1; font-color: "#2f4a31"; border-radius: 8}
+  }
+  agents: {
+    shape: hexagon
+    style: {fill: "#fad6bc"; stroke: "#de9c63"; stroke-width: 2; font-color: "#4a3320"; bold: true; shadow: true}
+  }
+  other: {
+    shape: oval
+    style: {fill: "#dfe5ee"; stroke: "#a7b5c6"; stroke-width: 2; font-color: "#39424f"; shadow: true}
+  }
+}
+
+title: "cmux-configuration  ·  shared theme, routed shells" {
+  shape: text
+  near: top-center
+  style: {font-size: 24; bold: true; font-color: "#5b4a86"}
+}
+
+# ── sources (top band) ─────────────────────────────────────────────
+login: "OS login shell\n= fish" {class: shell}
+
+cfg: Configuration {
+  style: {fill: "#fffdf4"; stroke: "#cdb85f"; stroke-width: 2; border-radius: 14; font-color: "#4a4326"; bold: true}
+  ghostty_cfg: "~/.config/ghostty/config\ntheme: Catppuccin Mocha\ncommand: /bin/zsh -l" {class: cfg}
+  cmux_cfg: "~/.config/cmux/cmux.json\ndark chrome · sidebar\nkeybinds · notifications" {class: cfg}
+}
+
+agents: "Agents\nClaude · Codex · OpenCode · Grok" {class: agents}
+
+# ── terminals (bottom band) ────────────────────────────────────────
 ghostty: Ghostty.app {
-  style.fill: "#a6e3a1"
-  a: honors command -> zsh
-  b: tmux 'work' on open
-  c: detach Ctrl+B d -> fish
+  class: appgreen
+  g1: "honors `command` → zsh" {class: stepgreen}
+  g2: "tmux 'work' on open" {class: stepgreen}
+  g3: "detach (Ctrl+B d) → shell" {class: stepgreen}
+  g1 -> g2 -> g3
 }
 
 cmux: cmux.app {
-  style.fill: "#cba6f7"
-  a: ignores command -> launches fish
-  b: fish config execs zsh
-  c: zsh sets SHELL=zsh + integration
-  d: sidebar git/cwd + Catppuccin sidebar
+  class: appmauve
+  c1: "ignores `command` → launches fish" {class: stepmauve}
+  c2: "fish block → exec zsh" {class: stepmauve}
+  c3: "zsh: SHELL=zsh + integration" {class: stepmauve}
+  c4: "Catppuccin sidebar · git / cwd" {class: stepmauve}
+  c1 -> c2 -> c3
 }
 
-agents: Agents: Claude / Codex / OpenCode / Grok {shape: rectangle; style.fill: "#fab387"}
+others: "Terminal.app / iTerm / …\nstay fish" {class: other}
 
+# ── launch flow ────────────────────────────────────────────────────
 login -> ghostty: launches
 login -> cmux: launches
-ghostty_cfg -> ghostty: theme + shell
-ghostty_cfg -> cmux: theme only (shared file)
-cmux_cfg -> cmux: chrome / keybinds / notifs
-agents -> cmux: hooks -> notifications + Feed
+login -> others: launches
+
+# ── config flow ────────────────────────────────────────────────────
+cfg.ghostty_cfg -> ghostty: "theme + shell"
+cfg.ghostty_cfg -> cmux: "theme only (shared file)"
+cfg.cmux_cfg -> cmux: "chrome · keybinds · notifs"
+
+# ── agent integration ──────────────────────────────────────────────
+agents -> cmux: "hooks → notifications + Feed"
