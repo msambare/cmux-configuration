@@ -8,7 +8,7 @@ Live status of the cmux-configuration build. Updated as phases land.
 |------|----------|
 | **Shells** | OS/login + other terminals = **fish**. **cmux = zsh** (all the way: `$SHELL` + sub-shells). Ghostty.app = zsh outer, **tmux `work`** on open, detach → shell. |
 | **Theme** | **Catppuccin Mocha** terminal theme — *shared* by cmux + Ghostty (they read the same ghostty config; per-app terminal themes would need a bundle edit, rejected). cmux differentiated via dark chrome + Catppuccin-harmonized sidebar. |
-| **Keybindings** | **Hybrid** — tmux `Ctrl+B` prefix chords for pane/split/window nav in cmux; Cmd for app-level (palette, settings, sidebar). |
+| **Keybindings** | **Hybrid** — tmux-style `Option+B` (`opt+b`) prefix chords for pane/split/window nav in cmux; Cmd for app-level (palette, settings, sidebar). |
 | **Agents** | Wire **Claude Code, Codex, OpenCode, Grok** (skills + notification hooks + team launchers). |
 | **Grok** | Grok **CLI + isolated HOME** (`~/.grok/bin`, `~/.grok-isolated-home`). |
 | **Scope** | **Comprehensive**, phased with review gates. |

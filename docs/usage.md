@@ -28,17 +28,17 @@ are in [notifications.md](notifications.md)/[keybindings.md](keybindings.md).
 
 ## 3. Keybindings — tmux muscle memory inside cmux
 
-Press **`Ctrl+B`**, release, then the key:
+Press **`Option+B`**, release, then the key:
 
 | Do this | Keys |
 |---|---|
-| Split right / down | `⌃B %` / `⌃B "` |
-| Move between panes | `⌃B ←` `→` `↑` `↓` |
-| Zoom pane (toggle) | `⌃B z` |
-| New tab / next / prev | `⌃B c` / `⌃B n` / `⌃B p` |
-| Jump to tab N | `⌃B 1`…`9` |
-| Close tab · rename | `⌃B x` · `⌃B ,` |
-| Copy mode · equalize | `⌃B [` · `⌃B space` |
+| Split right / down | `⌥B %` / `⌥B "` |
+| Move between panes | `⌥B ←` `→` `↑` `↓` |
+| Zoom pane (toggle) | `⌥B z` |
+| New tab / next / prev | `⌥B c` / `⌥B n` / `⌥B p` |
+| Jump to tab N | `⌥B 1`…`9` |
+| Close tab · rename | `⌥B x` · `⌥B ,` |
+| Copy mode · equalize | `⌥B [` · `⌥B space` |
 
 App-level stays Cmd: `⌘⇧P` palette · `⌘,` settings · `⌘B` sidebar · `⌘N` new
 workspace · `⌘P` workspace switcher · `⌘F` find. Full table + how to rebind:
@@ -120,7 +120,7 @@ wt feature-auth ; wt fix-flaky-test ; wt refactor-db
 #    e.g. claude in feature-auth, codex (omx) in fix-flaky-test, grok in refactor-db
 # 3. work elsewhere — when any agent finishes/needs you, a notification + sidebar
 #    badge pulls that workspace to the top (you're not pinged for the focused one)
-# 4. ⌃B n / ⌃B 1-9 to hop between them; ⌃B % to split a pane for logs/tests
+# 4. ⌥B n / ⌥B 1-9 to hop between them; ⌥B % to split a pane for logs/tests
 ```
 
 ## Activate / reload cheatsheet

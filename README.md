@@ -38,7 +38,7 @@ the OS default, fish.*
 |------|--------|---------|
 | **Shells** | OS / other terminals = fish · **cmux = zsh** end to end · Ghostty = zsh + a tmux `work` session (detach → plain shell) | — |
 | **Theme** | Catppuccin Mocha in the terminal (shared) + a matching Catppuccin sidebar and dark chrome in cmux | — |
-| **Keybindings** | tmux-style `Ctrl+B` prefix for pane / split / window navigation inside cmux | [keybindings](docs/keybindings.md) |
+| **Keybindings** | tmux-style `Option+B` prefix for pane / split / window navigation inside cmux | [keybindings](docs/keybindings.md) |
 | **Notifications** | desktop alert + sound + dock/sidebar badges when a background agent finishes or needs input | [notifications](docs/notifications.md) |
 | **Skills** | agents can *drive* cmux itself — workspaces, panes, settings, the embedded browser | [skills](docs/skills.md) |
 | **Agents** | Claude / Codex / OpenCode / Grok lifecycle hooks + parallel-team launchers | [agents](docs/agents.md) |

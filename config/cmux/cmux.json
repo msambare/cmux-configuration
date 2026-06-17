@@ -33,27 +33,27 @@
     "notificationBadgeColor": "#f38ba8"
   },
 
-  // Hybrid keybindings: tmux Ctrl+B prefix for pane/split/window nav; cmux Cmd defaults
+  // Hybrid keybindings: tmux-style Option+B (opt+b) prefix for pane/split/window nav; cmux Cmd defaults
   // stay for app-level (palette cmd+shift+p, settings cmd+,, sidebar cmd+b, new workspace
   // cmd+n, workspace switcher cmd+p, find, browser, quit). See docs/keybindings.md.
   // Note: %/" express as shift+5 / shift+' (cmux key grammar has no literal %/").
   "shortcuts": {
     "bindings": {
-      "splitRight":            ["ctrl+b", "shift+5"],
-      "splitDown":             ["ctrl+b", "shift+'"],
-      "focusLeft":             ["ctrl+b", "left"],
-      "focusRight":            ["ctrl+b", "right"],
-      "focusUp":               ["ctrl+b", "up"],
-      "focusDown":             ["ctrl+b", "down"],
-      "toggleSplitZoom":       ["ctrl+b", "z"],
-      "equalizeSplits":        ["ctrl+b", "space"],
-      "newSurface":            ["ctrl+b", "c"],
-      "nextSurface":           ["ctrl+b", "n"],
-      "prevSurface":           ["ctrl+b", "p"],
-      "selectSurfaceByNumber": ["ctrl+b", "1"],
-      "closeTab":              ["ctrl+b", "x"],
-      "renameTab":             ["ctrl+b", ","],
-      "toggleTerminalCopyMode":["ctrl+b", "["]
+      "splitRight":            ["opt+b", "shift+5"],
+      "splitDown":             ["opt+b", "shift+'"],
+      "focusLeft":             ["opt+b", "left"],
+      "focusRight":            ["opt+b", "right"],
+      "focusUp":               ["opt+b", "up"],
+      "focusDown":             ["opt+b", "down"],
+      "toggleSplitZoom":       ["opt+b", "z"],
+      "equalizeSplits":        ["opt+b", "space"],
+      "newSurface":            ["opt+b", "c"],
+      "nextSurface":           ["opt+b", "n"],
+      "prevSurface":           ["opt+b", "p"],
+      "selectSurfaceByNumber": ["opt+b", "1"],
+      "closeTab":              ["opt+b", "x"],
+      "renameTab":             ["opt+b", ","],
+      "toggleTerminalCopyMode":["opt+b", "["]
     }
   }
 }
