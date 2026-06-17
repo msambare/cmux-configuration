@@ -8,7 +8,7 @@ Live status of the cmux-configuration build. Updated as phases land.
 |------|----------|
 | **Shells** | OS/login + other terminals = **fish**. **cmux = zsh** (all the way: `$SHELL` + sub-shells). Ghostty.app = zsh outer, **tmux `work`** on open, detach → shell. |
 | **Theme** | **Catppuccin Mocha** terminal theme — *shared* by cmux + Ghostty (they read the same ghostty config; per-app terminal themes would need a bundle edit, rejected). cmux differentiated via dark chrome + Catppuccin-harmonized sidebar. |
-| **Keybindings** | **Hybrid** — tmux-style `Option+B` (`opt+b`) prefix chords for pane/split/window nav in cmux; Cmd for app-level (palette, settings, sidebar). |
+| **Keybindings** | **Hybrid** — tmux-style `Cmd+B` (`cmd+b`) prefix chords for pane/split/window nav in cmux; Cmd for app-level (palette, settings, sidebar moved to `cmd+shift+b`). Cmd chosen so a remote tmux's `Ctrl+B` is never intercepted. |
 | **Agents** | Wire **Claude Code, Codex, OpenCode, Grok** (skills + notification hooks + team launchers). |
 | **Grok** | Grok **CLI + isolated HOME** (`~/.grok/bin`, `~/.grok-isolated-home`). |
 | **Scope** | **Comprehensive**, phased with review gates. |
@@ -20,7 +20,7 @@ Live status of the cmux-configuration build. Updated as phases land.
 - [x] **P0 — Discover** cmux config + docs; baseline ([docs/00-current-state.md](00-current-state.md)).
 - [x] **P1 — Foundation POC** (shells/theme/tmux/sidebar) proven in-place; reversible via [scripts/poc-rollback.sh](../scripts/poc-rollback.sh).
 - [x] **P2 — Portable spine**: `install.sh` / `uninstall.sh` / `verify.sh` + `lib/inject.sh` + `blocks/` + managed `cmux.json`. *(sandbox + live validated; machine migrated to managed; effective config proven byte-identical to the working POC)*
-- [x] **P3 — Features**: keybindings (hybrid tmux, 15 chords, schema-validated), notifications (cmux.json), skills installer, agent integrations (claude/codex/opencode/grok hooks — installed + validated live), worktrees (script tested). Each committed.
+- [x] **P3 — Features**: keybindings (hybrid tmux, 15 chords on a `Cmd+B` prefix, schema-validated, **verified working live on macOS** — Cmd leader so a remote tmux's `Ctrl+B` is never intercepted), notifications (cmux.json), skills installer, agent integrations (claude/codex/opencode/grok hooks — installed + validated live), worktrees (script tested). Each committed.
 - [x] **P4 — Docs**: per-area guides (keybindings/notifications/skills/agents/worktrees) + D2 architecture diagram + docs index + README.
 - [ ] **P5 — Ship**: PII-verified (committed locally, swept each commit) → your review → GitHub public. *Pending your go.*
 

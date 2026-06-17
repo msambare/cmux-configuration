@@ -33,27 +33,32 @@
     "notificationBadgeColor": "#f38ba8"
   },
 
-  // Hybrid keybindings: tmux-style Option+B (opt+b) prefix for pane/split/window nav; cmux Cmd defaults
-  // stay for app-level (palette cmd+shift+p, settings cmd+,, sidebar cmd+b, new workspace
-  // cmd+n, workspace switcher cmd+p, find, browser, quit). See docs/keybindings.md.
+  // Hybrid keybindings: tmux-style Cmd+B (cmd+b) prefix for pane/split/window nav.
+  //   Why Cmd (not Ctrl/Option): Cmd is cmux's native chord modifier AND macOS never
+  //   sends Cmd to the terminal PTY — so a remote tmux's Ctrl+B/Ctrl+A pass through
+  //   untouched (no leak), and Option can't lead a chord (macOS composes it to text).
+  // cmux Cmd defaults stay for app-level (palette cmd+shift+p, settings cmd+,, new
+  //   workspace cmd+n, switcher cmd+p, find, browser, quit). Sidebar moved cmd+b -> cmd+shift+b
+  //   (cmd+b is now the prefix). See docs/keybindings.md.
   // Note: %/" express as shift+5 / shift+' (cmux key grammar has no literal %/").
   "shortcuts": {
     "bindings": {
-      "splitRight":            ["opt+b", "shift+5"],
-      "splitDown":             ["opt+b", "shift+'"],
-      "focusLeft":             ["opt+b", "left"],
-      "focusRight":            ["opt+b", "right"],
-      "focusUp":               ["opt+b", "up"],
-      "focusDown":             ["opt+b", "down"],
-      "toggleSplitZoom":       ["opt+b", "z"],
-      "equalizeSplits":        ["opt+b", "space"],
-      "newSurface":            ["opt+b", "c"],
-      "nextSurface":           ["opt+b", "n"],
-      "prevSurface":           ["opt+b", "p"],
-      "selectSurfaceByNumber": ["opt+b", "1"],
-      "closeTab":              ["opt+b", "x"],
-      "renameTab":             ["opt+b", ","],
-      "toggleTerminalCopyMode":["opt+b", "["]
+      "splitRight":            ["cmd+b", "shift+5"],
+      "splitDown":             ["cmd+b", "shift+'"],
+      "focusLeft":             ["cmd+b", "left"],
+      "focusRight":            ["cmd+b", "right"],
+      "focusUp":               ["cmd+b", "up"],
+      "focusDown":             ["cmd+b", "down"],
+      "toggleSplitZoom":       ["cmd+b", "z"],
+      "equalizeSplits":        ["cmd+b", "space"],
+      "newSurface":            ["cmd+b", "c"],
+      "nextSurface":           ["cmd+b", "n"],
+      "prevSurface":           ["cmd+b", "p"],
+      "selectSurfaceByNumber": ["cmd+b", "1"],
+      "closeTab":              ["cmd+b", "x"],
+      "renameTab":             ["cmd+b", ","],
+      "toggleTerminalCopyMode":["cmd+b", "["],
+      "toggleSidebar":         "cmd+shift+b"
     }
   }
 }

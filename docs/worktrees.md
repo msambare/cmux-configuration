@@ -34,7 +34,7 @@ git branch -d «branch»
 ## Parallel agents in the worktree workspace
 
 Once the worktree workspace is open in cmux, split it and launch an agent per pane
-(`Option+B %` / `Option+B "` with these keybindings, then run `claude` / `codex` /
+(`Cmd+B %` / `Cmd+B "` with these keybindings, then run `claude` / `codex` /
 `opencode` / `grok`).
 
 For **one-click** worktree-with-agents (plus-button / Command Palette), cmux's
