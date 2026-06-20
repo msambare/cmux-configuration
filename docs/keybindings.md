@@ -52,6 +52,25 @@ entries are validated against cmux's official shortcut grammar.
 | `⌘⇧L` / `⌘L` | browser / address bar |
 | `⌘Q` | quit |
 
+## Shift+Enter = newline in Claude Code (over ssh + tmux)
+
+The managed ghostty block also rebinds **Shift+Enter** so it inserts a newline in
+Claude Code instead of submitting:
+
+```
+keybind = shift+enter=text:\n
+```
+
+Why it's needed: by default cmux/Ghostty encodes Shift+Enter as the legacy CSI-27
+sequence (`ESC[27;2;13~`), which Claude Code does **not** treat as newline — so it
+submits. The kitty CSI-u form (`ESC[13;2u`) also failed to survive an `ssh → remote
+tmux` hop in testing. A bare line feed (`\n`, 0x0a) is what Claude inserts a newline
+on (it only submits on `\r`), it's the exact byte iTerm sends, and a single literal
+byte passes through ssh + tmux untouched — so this works locally *and* in a remote
+tmux session. (`Ctrl+J` and `\`+Enter are built-in Claude fallbacks that always work.)
+
+This lives in the shared ghostty config, so it applies to standalone Ghostty.app too.
+
 ## Tuning
 
 Every binding is one line in `cmux.json`. To revert one to its Cmd default,
