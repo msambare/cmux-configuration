@@ -17,7 +17,21 @@
     "showInMenuBar": true,
     "unreadPaneRing": true,
     "paneFlash": true,
-    "sound": "Glass"
+    "sound": "Glass",
+
+    // Silence Grok's per-tool "Tool permission requested / needs input" buzz. Grok runs
+    // always-approve, but cmux still fires a banner+sound on every PreToolUse (no grokIntegration
+    // off-switch, and cmux regenerates the grok hook on launch so editing it is futile). This
+    // filter strips banner/sound/flash for Grok's in-progress notifications only — genuine Grok
+    // completions and all other agents pass through. Installed to ~/.config/cmux/ by install.sh.
+    // Fail-open: any error echoes the notification unchanged. See scripts/grok-notif-filter.py.
+    "hooks": [
+      {
+        "id": "grok-progress-silencer",
+        "command": "/usr/bin/python3 \"$HOME/.config/cmux/grok-notif-filter.py\"",
+        "timeoutSeconds": 10
+      }
+    ]
   },
 
   // Sidebar tuned to harmonize with the shared Catppuccin Mocha terminal theme.

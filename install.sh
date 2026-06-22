@@ -25,6 +25,9 @@ mkdir -p "$HOME/.config/cmux"
 [ -f "$HOME/.config/cmux/cmux.json" ] && cp "$HOME/.config/cmux/cmux.json" "$HOME/.config/cmux/cmux.json.cmux-bak.$(date +%Y%m%d-%H%M%S)"
 cp "$REPO/config/cmux/cmux.json" "$HOME/.config/cmux/cmux.json"
 
+# Notification filter referenced by cmux.json's notifications.hooks (silences Grok's per-tool buzz).
+cp "$REPO/scripts/grok-notif-filter.py" "$HOME/.config/cmux/grok-notif-filter.py"
+
 # Ensure the cmux CLI is reachable on $PATH. cmux.app ships the CLI but may not
 # symlink it; link into ~/.local/bin (user-writable, already on PATH via the
 # managed shell blocks) so `cmux ...` works in new shells. No sudo, no PII.
