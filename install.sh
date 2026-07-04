@@ -17,8 +17,13 @@ if [ ! -f "$HOME/.config/ghostty/config" ]; then
   echo "    seeded fresh ~/.config/ghostty/config from template"
 fi
 cmux_inject "$HOME/.config/ghostty/config"   "cmux-config:ghostty" "$REPO/blocks/ghostty.cmux.conf"
-cmux_inject "$HOME/.config/fish/config.fish" "cmux-config:fish"    "$REPO/blocks/config.fish.cmux.fish"
-cmux_inject "$HOME/.zshrc"                    "cmux-config:zshrc"   "$REPO/blocks/zshrc.cmux.sh"
+# NOTE (2026-07-04): the zsh + fish shell blocks are no longer injected here.
+# The shared shell-config dotfiles (managed separately) now SOURCE these block
+# files directly (blocks/zshrc.cmux.sh, blocks/config.fish.cmux.fish) so shell
+# config lives in ONE place and stays portable across machines. Ghostty (above)
+# is still cmux's. Re-enable the two lines below only if you revert that decoupling.
+# cmux_inject "$HOME/.config/fish/config.fish" "cmux-config:fish"    "$REPO/blocks/config.fish.cmux.fish"
+# cmux_inject "$HOME/.zshrc"                    "cmux-config:zshrc"   "$REPO/blocks/zshrc.cmux.sh"
 
 # cmux.json is cmux-only (no personal secrets) → managed wholesale, with a backup.
 mkdir -p "$HOME/.config/cmux"
